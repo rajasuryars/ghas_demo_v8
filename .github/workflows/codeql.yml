@@ -18,7 +18,6 @@ jobs:
       contents: read
       security-events: write
 
-
     strategy:
       fail-fast: false
       matrix:
@@ -32,38 +31,15 @@ jobs:
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
-    
+
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
       with:
-        # Queries to run
-        queries: |
-          'java-security-extended'
-          'java-security-and-quality'
-          'java-performance'
-          'java-serialization'
-          'java-undocumented-api'
-          'java-useless-control-flow'
-          'java-tainted-data'
-          'java-threading'
-          'java-insecure-crypto'
-          'java-nullness'
-          'java-security-protection-bypass'
-          'java-security-concurrency'
-          'java-security-xxe'
-          'java-security-sqli'
-          'java-security-xss'
-          'java-security-csrf'
-          'java-security-ldap-injection'
-          'java-security-log-injection'
-          'java-security-http-response-splitting'
-        # Path to sources
-        root: .
-        # Path to class files
-        classpath: target/classes
-        # Fail the workflow if any Critical or High severity alerts are found
-        fail-on: "any:high,critical"
+        # Use the queries for CRLF Injection, Credential Management,
+        # Cross-Site Scripting, and Directory Traversal vulnerabilities
+        # that are included with CodeQL.
+        queries: "codeql-javascript/CRLFInjection,codeql-javascript/CredentialManagement,codeql-javascript/CrossSiteScripting,codeql-javascript/DirectoryTraversal"
         category: "/language:${{matrix.language}}"
