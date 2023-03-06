@@ -17,29 +17,21 @@ jobs:
       actions: read
       contents: read
       security-events: write
-
     strategy:
       fail-fast: false
       matrix:
         language: [ 'java', 'javascript' ]
-
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
-
+      uses: actions/checkout@v3 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
-
+        queries: 'code-scanning-security-extended, security-extended, taint-tracking'
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
-
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
       with:
-        # Use the queries for CRLF Injection, Credential Management,
-        # Cross-Site Scripting, and Directory Traversal vulnerabilities
-        # that are included with CodeQL.
-        queries: "codeql-javascript/CRLFInjection,codeql-javascript/CredentialManagement,codeql-javascript/CrossSiteScripting,codeql-javascript/DirectoryTraversal"
         category: "/language:${{matrix.language}}"
