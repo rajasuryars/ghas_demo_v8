@@ -28,7 +28,7 @@ jobs:
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
-        queries: security-experimental, security-extended, security-and-quality
+        queries: security-extended, security-and-quality, security-extended-and-quality, security-extended-and-deprecated, security-experimental
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
     - name: Perform CodeQL Analysis
